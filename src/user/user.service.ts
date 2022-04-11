@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtPayload } from './jwt.payload';
 import { UserInput } from './types/user.input';
+import { UserSignInInput } from './types/user.signin.input';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class UserService {
     return this.userRepository.signup(userInput);
   }
 
-  async signin(userInput: UserInput) {
+  async signin(userInput: UserSignInInput) {
     const user = await this.userRepository.signin(userInput);
     console.log(user);
     if (!user) {
@@ -26,7 +27,7 @@ export class UserService {
     }
 
     const payload: JwtPayload = {
-      username: user.username,
+      email: user.email,
       id: user.id,
     };
 

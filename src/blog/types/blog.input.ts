@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { BlogTags } from '../blogTags.enum';
 //import { BlogTags } from '../blogTags.enum';
 
 @InputType()
@@ -10,5 +11,5 @@ export class BlogInputType {
   blogContent: string;
 
   @Field()
-  blogTags: string;
+  blogTags: BlogTags;
 }

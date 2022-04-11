@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { BlogTags } from '../blogTags.enum';
 //import { BlogTags } from '../blogTags.enum';
 
 @ObjectType('Blog')
@@ -13,5 +14,8 @@ export class BlogType {
   blogContent: string;
 
   @Field()
-  blogTags: string;
+  blogTags: BlogTags;
+
+  @Field()
+  userId: number;
 }

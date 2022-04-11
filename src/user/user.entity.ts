@@ -8,20 +8,27 @@ import {
 } from 'typeorm';
 import * as crypto from 'crypto-js';
 import { BlogEntity } from 'src/blog/blog.entity';
+import { IsEmail } from 'class-validator';
 
 @Entity('User')
-@Unique(['username'])
+@Unique(['email'])
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  username: string;
+  @IsEmail()
+  email: string;
+
+  @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
 
   @Column()
   password: string;
 
-  // one user may have multiple tasks
   @OneToMany((type) => BlogEntity, (blog) => blog.user, { eager: true })
   blogs: BlogEntity[];
 

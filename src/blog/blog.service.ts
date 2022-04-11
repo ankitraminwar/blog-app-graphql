@@ -11,30 +11,22 @@ export class BlogService {
     private blogRepository: BlogRepository,
   ) {}
 
-  async createBlog(input: BlogInputType, user: UserEntity) {
-    return this.blogRepository.createBlog(input, user);
+  async createBlog(user: UserEntity, input: BlogInputType, id?: number) {
+    return this.blogRepository.createBlog(user, input, id);
   }
 
   async getBlogById(id: number) {
-    const blog = await this.blogRepository.findOne(id);
-    if (blog) {
-      throw new NotFoundException('Blog Not Found');
-    }
-    return blog;
+    return this.blogRepository.getBlogById(id);
   }
-  /* async getAllBlogs() {
-    const blog = await this.blogRepository.findOne(id);
-    if (blog) {
-      throw new NotFoundException('Blog Not Found');
-    }
-    return blog;
-  }*/
-
-  async getBlogs(status: string) {
-    return this.blogRepository.getBlogs(status);
+  async AllBlogs() {
+    return this.blogRepository.AllBlogs();
   }
 
-  async updateBlog(id: number, input: BlogInputType) {
+  async getBlogs(user: UserEntity) {
+    return this.blogRepository.getBlogs(user);
+  }
+
+  async updateBlog(id: number, input: BlogInputType, user: UserEntity) {
     const blog = await this.getBlogById(id);
 
     blog.blogTitle = input.blogTitle;
@@ -47,12 +39,6 @@ export class BlogService {
   }
 
   async deleteBlog(id: number) {
-    const result = await this.blogRepository.delete(id);
-
-    if (result.affected == 0) {
-      throw new NotFoundException('Blog not Found');
-    }
-
-    return result;
+    return this.blogRepository.deleteBlog(id);
   }
 }

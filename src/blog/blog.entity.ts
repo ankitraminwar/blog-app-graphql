@@ -8,6 +8,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BlogTags } from './blogTags.enum';
 //import { BlogTags } from './blogTags.enum';
 
 @Entity('Blog')
@@ -16,15 +17,15 @@ export class BlogEntity extends BaseEntity {
   id: number;
 
   @Column()
-  //@IsNotEmpty()
+  @IsNotEmpty()
   blogTitle: string;
 
   @Column('text')
-  //@IsNotEmpty()
+  @IsNotEmpty()
   blogContent: string;
 
   @Column()
-  blogTags: string;
+  blogTags: BlogTags;
 
   @ManyToOne((type) => UserEntity, (user) => user.blogs, { eager: false })
   user: UserEntity;

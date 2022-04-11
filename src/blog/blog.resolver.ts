@@ -4,7 +4,6 @@ import { GetUser } from 'src/user/get.user.decorator';
 import { GQLAuthGuard } from 'src/user/gql.authguard';
 import { UserEntity } from 'src/user/user.entity';
 import { BlogService } from './blog.service';
-//import { BlogTags } from './blogTags.enum';
 import { BlogInputType } from './types/blog.input';
 import { BlogType } from './types/blog.type';
 
@@ -14,18 +13,31 @@ export class BlogResolver {
   constructor(private blogService: BlogService) {}
 
   @Query((returns) => [BlogType])
-  blogs(@Args('blogTitle') status: string) {
-    return this.blogService.getBlogs(status);
+  blogs(@GetUser() user: UserEntity) {
+    return this.blogService.getBlogs(user);
+  }
+
+  @Query((returns) => [BlogType])
+  Allblogs() {
+    return this.blogService.AllBlogs();
   }
 
   @Mutation((returns) => BlogType)
-  createBlog(@Args('input') input: BlogInputType, @GetUser() user: UserEntity) {
-    return this.blogService.createBlog(input, user);
+  createBlog(
+    @Args('input') input: BlogInputType,
+    @GetUser() user: UserEntity,
+    @Args('id') id?: number,
+  ) {
+    return this.blogService.createBlog(user, input, id);
   }
 
   @Mutation((returns) => BlogType)
-  updateBlog(@Args('id') id: number, @Args('input') input: BlogInputType) {
-    return this.blogService.updateBlog(id, input);
+  updateBlog(
+    @Args('id') id: number,
+    @Args('input') input: BlogInputType,
+    user: UserEntity,
+  ) {
+    return this.blogService.updateBlog(id, input, user);
   }
 
   @Mutation((returns) => BlogType)

@@ -11,8 +11,13 @@ import { UserResolver } from './user.resolver';
 
 @Module({
   imports: [
-    JwtModule.register({ secret: 'secret', signOptions: { expiresIn: 3600 } }),
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register({
+      secret: 'secret',
+      signOptions: { expiresIn: 3600 },
+    }),
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+    }),
     TypeOrmModule.forFeature([UserRepository]),
   ],
   controllers: [],

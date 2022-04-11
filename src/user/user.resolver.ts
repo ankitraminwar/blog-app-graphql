@@ -7,6 +7,7 @@ import { UseGuards } from '@nestjs/common';
 import { GQLAuthGuard } from './gql.authguard';
 import { GetUser } from './get.user.decorator';
 import { UserEntity } from './user.entity';
+import { UserSignInInput } from './types/user.signin.input';
 
 @Resolver((of) => UserType)
 export class UserResolver {
@@ -18,7 +19,7 @@ export class UserResolver {
   }
 
   @Mutation((returns) => SigninResponse)
-  signin(@Args('input') input: UserInput) {
+  signin(@Args('input') input: UserSignInInput) {
     return this.userService.signin(input);
   }
 

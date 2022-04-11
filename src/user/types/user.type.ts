@@ -6,5 +6,11 @@ export class UserType {
   id: number;
 
   @Field()
-  username: string;
+  email: string;
+
+  @Field()
+  firstName: string;
+
+  @Field()
+  lastName: string;
 }
