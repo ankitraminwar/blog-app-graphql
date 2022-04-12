@@ -1,9 +1,11 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { use } from 'passport';
 import { GetUser } from 'src/user/get.user.decorator';
 import { GQLAuthGuard } from 'src/user/gql.authguard';
 import { UserEntity } from 'src/user/user.entity';
 import { BlogService } from './blog.service';
+import { BlogFilter } from './types/blog.filter';
 import { BlogInputType } from './types/blog.input';
 import { BlogType } from './types/blog.type';
 
@@ -18,29 +20,29 @@ export class BlogResolver {
   }
 
   @Query((returns) => [BlogType])
-  Allblogs() {
-    return this.blogService.AllBlogs();
+  Allblogs(@Args('input') input: BlogFilter) {
+    return this.blogService.AllBlogs(input);
   }
 
   @Mutation((returns) => BlogType)
-  createBlog(
+  createBlog(@Args('input') input: BlogInputType, @GetUser() user: UserEntity) {
+    return this.blogService.createBlog(user, input);
+  }
+
+  @Mutation((returns) => BlogType)
+  updateBlog(@Args('input') input: BlogInputType) {
+    return this.blogService.updateBlog(input);
+  }
+
+  @Mutation((returns) => BlogType)
+  createOrUpdateBlog(
     @Args('input') input: BlogInputType,
     @GetUser() user: UserEntity,
-    @Args('id') id?: number,
   ) {
-    return this.blogService.createBlog(user, input, id);
+    return this.blogService.createOrUpdateBlog(input, user);
   }
 
-  @Mutation((returns) => BlogType)
-  updateBlog(
-    @Args('id') id: number,
-    @Args('input') input: BlogInputType,
-    user: UserEntity,
-  ) {
-    return this.blogService.updateBlog(id, input, user);
-  }
-
-  @Mutation((returns) => BlogType)
+  @Mutation((returns) => String)
   deleteBlog(@Args('id') id: number) {
     return this.blogService.deleteBlog(id);
   }

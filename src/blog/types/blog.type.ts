@@ -1,19 +1,18 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { BlogTags } from '../blogTags.enum';
-//import { BlogTags } from '../blogTags.enum';
 
 @ObjectType('Blog')
 export class BlogType {
-  @Field((type) => ID)
+  @Field((type) => ID, { nullable: true })
   id: number;
 
-  @Field()
+  @Field({ nullable: true })
   blogTitle: string;
 
-  @Field()
+  @Field({ nullable: true })
   blogContent: string;
 
-  @Field()
+  @Field({ nullable: true })
   blogTags: BlogTags;
 
   @Field()

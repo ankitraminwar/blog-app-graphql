@@ -6,7 +6,7 @@ import { UserEntity } from 'src/user/user.entity';
 export const TypeORMConfiguration: TypeOrmModuleOptions = {
   //username: 'sqlite3',
   //password: 'india',
-  database: 'blogdata6',
+  database: 'blogdata1',
   //port: 5432,
   //host: 'localhost',
   type: 'sqlite',

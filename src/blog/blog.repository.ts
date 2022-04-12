@@ -2,34 +2,43 @@ import { NotFoundException } from '@nestjs/common';
 import { UserEntity } from 'src/user/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { BlogEntity } from './blog.entity';
+import { BlogFilter } from './types/blog.filter';
 import { BlogInputType } from './types/blog.input';
 
 @EntityRepository(BlogEntity)
 export class BlogRepository extends Repository<BlogEntity> {
-  async createBlog(user: UserEntity, input: BlogInputType, id?: number) {
-    if (id == null || id == 0) {
-      const blog = new BlogEntity();
-      blog.blogTitle = input.blogTitle;
-      blog.blogContent = input.blogContent;
-      blog.blogTags = input.blogTags;
+  async createBlog(user: UserEntity, input: BlogInputType) {
+    const blog = new BlogEntity();
+    blog.blogTitle = input.blogTitle;
+    blog.blogContent = input.blogContent;
+    blog.blogTags = input.blogTags;
 
-      blog.user = user;
+    blog.user = user;
 
-      await blog.save();
+    await blog.save();
 
-      delete blog.user;
+    delete blog.user;
 
-      return blog;
+    return blog;
+  }
+
+  async updateBlog(input: BlogInputType) {
+    const blog = await this.getBlogById(input.id);
+
+    blog.blogTitle = input.blogTitle;
+    blog.blogContent = input.blogContent;
+    blog.blogTags = input.blogTags;
+
+    await blog.save();
+
+    return blog;
+  }
+
+  async createOrUpdateBlog(input: BlogInputType, user: UserEntity) {
+    if (input.id == null || input.id == 0 || input.id == undefined) {
+      return this.createBlog(user, input);
     } else {
-      const blog = await this.getBlogById(id);
-
-      blog.blogTitle = input.blogTitle;
-      blog.blogContent = input.blogContent;
-      blog.blogTags = input.blogTags;
-
-      await blog.save();
-
-      return blog;
+      return this.updateBlog(input);
     }
   }
 
@@ -55,24 +64,38 @@ export class BlogRepository extends Repository<BlogEntity> {
     throw new NotFoundException('Blog Not Found here:)');
   }
 
-  async AllBlogs() {
-    //const query = this.createQueryBuilder('blog');
-
-    //query.andWhere(`blogTags=:tags`, { BlogTags: tags });
-
-    //const tagFilter = query.getMany();
-
-    const allBlog = await this.find();
-
-    return await allBlog;
-
-    //return await tagFilter;
+  async AllBlogs(input: BlogFilter) {
+    let allBlog = await this.find();
+    if (input.blogTags == null || input.blogTitle) {
+      return allBlog;
+    }
+    if (input.blogTags) {
+      allBlog = allBlog.filter(
+        (allBlog) => allBlog.blogTags === input.blogTags,
+      );
+    }
+    if (input.blogTitle) {
+      allBlog = allBlog.filter(
+        (allBlog) => allBlog.blogTitle === input.blogTitle,
+      );
+    }
+    if (input.blogTags && input.blogTitle) {
+      allBlog = allBlog.filter(
+        (allBlog) =>
+          allBlog.blogTags.includes(input.blogTags) &&
+          allBlog.blogTitle.includes(input.blogTitle),
+      );
+    }
+    return allBlog;
   }
 
   async deleteBlog(id: number) {
     const result = await this.getBlogById(id);
     if (result) {
-      return await this.delete(result);
+      const stat = await this.delete(result);
+      if (stat.affected == 1) {
+        return 'Successfully deleted the blog';
+      }
     } else {
       throw new NotFoundException('Blog not Found');
     }

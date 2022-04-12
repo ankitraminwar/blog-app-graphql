@@ -2,16 +2,13 @@ import { Field, InputType } from '@nestjs/graphql';
 import { BlogTags } from '../blogTags.enum';
 
 @InputType()
-export class BlogInputType {
+export class BlogFilter {
   @Field({ nullable: true })
   id: number;
 
-  @Field()
+  @Field({ nullable: true })
   blogTitle: string;
 
-  @Field()
-  blogContent: string;
-
-  @Field()
+  @Field({ nullable: true })
   blogTags: BlogTags;
 }
