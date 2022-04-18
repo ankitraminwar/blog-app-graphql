@@ -15,11 +15,11 @@ export class BlogRepository extends Repository<BlogEntity> {
 
     blog.user = user;
 
-    await blog.save();
+    const result = await blog.save();
 
     delete blog.user;
 
-    return blog;
+    return result;
   }
 
   async updateBlog(input: BlogInputType) {
@@ -29,9 +29,9 @@ export class BlogRepository extends Repository<BlogEntity> {
     blog.blogContent = input.blogContent;
     blog.blogTags = input.blogTags;
 
-    await blog.save();
+    const result = await blog.save();
 
-    return blog;
+    return result;
   }
 
   async createOrUpdateBlog(input: BlogInputType, user: UserEntity) {
@@ -64,27 +64,22 @@ export class BlogRepository extends Repository<BlogEntity> {
     throw new NotFoundException('Blog Not Found here:)');
   }
 
-  async AllBlogs(input: BlogFilter) {
-    let allBlog = await this.find();
-    if (input.blogTags == null || input.blogTitle) {
+  async allBlogs(input: BlogFilter) {
+    const allBlog = await this.find();
+    const query = this.createQueryBuilder('blog');
+    if (input.blogTags == null && input.blogTitle == null) {
       return allBlog;
     }
     if (input.blogTags) {
-      allBlog = allBlog.filter(
-        (allBlog) => allBlog.blogTags === input.blogTags,
-      );
+      query.andWhere(`blogTags= :blogTags`, { blogTags: input.blogTags });
+      const blog = query.getMany();
+      return await blog;
     }
     if (input.blogTitle) {
-      allBlog = allBlog.filter(
-        (allBlog) => allBlog.blogTitle === input.blogTitle,
-      );
-    }
-    if (input.blogTags && input.blogTitle) {
-      allBlog = allBlog.filter(
-        (allBlog) =>
-          allBlog.blogTags.includes(input.blogTags) &&
-          allBlog.blogTitle.includes(input.blogTitle),
-      );
+      query.andWhere(`blogTitle= :blogTitle`, { blogTitle: input.blogTitle });
+      const blog = query.getMany();
+
+      return await blog;
     }
     return allBlog;
   }

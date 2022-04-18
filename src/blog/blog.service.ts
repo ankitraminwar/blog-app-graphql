@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/user/user.entity';
 import { BlogRepository } from './blog.repository';
@@ -23,8 +23,8 @@ export class BlogService {
   async getBlogById(id: number) {
     return this.blogRepository.getBlogById(id);
   }
-  async AllBlogs(input: BlogFilter) {
-    return this.blogRepository.AllBlogs(input);
+  async allBlogs(input: BlogFilter) {
+    return this.blogRepository.allBlogs(input);
   }
 
   async getBlogs(user: UserEntity) {

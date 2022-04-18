@@ -1,6 +1,5 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { use } from 'passport';
 import { GetUser } from 'src/user/get.user.decorator';
 import { GQLAuthGuard } from 'src/user/gql.authguard';
 import { UserEntity } from 'src/user/user.entity';
@@ -20,8 +19,8 @@ export class BlogResolver {
   }
 
   @Query((returns) => [BlogType])
-  Allblogs(@Args('input') input: BlogFilter) {
-    return this.blogService.AllBlogs(input);
+  allblogs(@Args('input') input: BlogFilter) {
+    return this.blogService.allBlogs(input);
   }
 
   @Mutation((returns) => BlogType)

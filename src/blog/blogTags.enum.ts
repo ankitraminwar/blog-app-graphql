@@ -3,4 +3,5 @@ export enum BlogTags {
   FOOD = 'FOOD',
   TRAVEL = 'TRAVEL',
   SPORTS = 'SPORTS',
+  FINANCE = 'FINANCE',
 }

@@ -8,7 +8,13 @@ import { UserSignInInput } from './types/user.signin.input';
 export class UserRepository extends Repository<UserEntity> {
   async signup(userInput: UserInput) {
     const user = new UserEntity();
-    user.email = userInput.email;
+
+    if (userInput.email) {
+      const valide = this.validateEmail(userInput.email);
+      if ((await valide) == true) {
+        user.email = userInput.email;
+      }
+    }
 
     user.firstName = userInput.firstName;
 
@@ -19,6 +25,18 @@ export class UserRepository extends Repository<UserEntity> {
     await user.save();
 
     return user;
+  }
+
+  async validateEmail(search: string) {
+    let searchall: boolean;
+    const regexp = new RegExp(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
+
+    // eslint-disable-next-line prefer-const
+    searchall = regexp.test(search);
+    console.log(searchall);
+    return searchall;
   }
 
   async signin(userInput: UserSignInInput) {
