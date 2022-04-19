@@ -13,8 +13,8 @@ import { BlogTags } from './blogTags.enum';
 @Entity('Blog')
 @Unique(['blogTitle'])
 export class BlogEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   @IsNotEmpty()
@@ -31,5 +31,5 @@ export class BlogEntity extends BaseEntity {
   user: UserEntity;
 
   @Column()
-  userId: number;
+  userId: string;
 }

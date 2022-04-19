@@ -18,18 +18,18 @@ type Blog {
   blogTitle: String
   blogContent: String
   blogTags: String
-  userId: Float!
+  userId: String!
 }
 
 type Query {
   blogs: [Blog!]!
   allblogs(input: BlogFilter!): [Blog!]!
-  getBlogById(id: Float!): Blog!
+  getBlogById(id: String!): Blog!
   profile: User!
 }
 
 input BlogFilter {
-  id: Float
+  id: String
   blogTitle: String
   blogTags: String
 }
@@ -38,13 +38,13 @@ type Mutation {
   createBlog(input: BlogInputType!): Blog!
   updateBlog(input: BlogInputType!): Blog!
   createOrUpdateBlog(input: BlogInputType!): Blog!
-  deleteBlog(id: Float!): String!
+  deleteBlog(id: String!): String!
   signup(input: UserInput!): User!
   signin(input: UserSignInInput!): SigninResponse!
 }
 
 input BlogInputType {
-  id: Float
+  id: String
   blogTitle: String!
   blogContent: String!
   blogTags: String!

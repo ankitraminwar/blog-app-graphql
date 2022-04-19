@@ -20,7 +20,7 @@ export class BlogService {
     return this.blogRepository.createOrUpdateBlog(input, user);
   }
 
-  async getBlogById(id: number) {
+  async getBlogById(id: string) {
     return this.blogRepository.getBlogById(id);
   }
   async allBlogs(input: BlogFilter) {
@@ -35,7 +35,7 @@ export class BlogService {
     return this.blogRepository.updateBlog(input);
   }
 
-  async deleteBlog(id: number) {
+  async deleteBlog(id: string) {
     return this.blogRepository.deleteBlog(id);
   }
 }

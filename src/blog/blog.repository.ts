@@ -35,7 +35,7 @@ export class BlogRepository extends Repository<BlogEntity> {
   }
 
   async createOrUpdateBlog(input: BlogInputType, user: UserEntity) {
-    if (input.id == null || input.id == 0 || input.id == undefined) {
+    if (input.id == null || input.id == undefined) {
       return this.createBlog(user, input);
     } else {
       return this.updateBlog(input);
@@ -50,7 +50,7 @@ export class BlogRepository extends Repository<BlogEntity> {
     return await query.getMany();
   }
 
-  async getBlogById(id: number) {
+  async getBlogById(id: string) {
     const query = this.createQueryBuilder('blog');
 
     query.andWhere(`id=:id`, { id: id });
@@ -84,7 +84,7 @@ export class BlogRepository extends Repository<BlogEntity> {
     return allBlog;
   }
 
-  async deleteBlog(id: number) {
+  async deleteBlog(id: string) {
     const result = await this.getBlogById(id);
     if (result) {
       const stat = await this.delete(result);

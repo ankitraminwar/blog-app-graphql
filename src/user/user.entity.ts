@@ -13,8 +13,8 @@ import { IsEmail } from 'class-validator';
 @Entity('User')
 @Unique(['email'])
 export class UserEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   @IsEmail()

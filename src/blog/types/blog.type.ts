@@ -4,7 +4,7 @@ import { BlogTags } from '../blogTags.enum';
 @ObjectType('Blog')
 export class BlogType {
   @Field((type) => ID, { nullable: true })
-  id: number;
+  id: string;
 
   @Field({ nullable: true })
   blogTitle: string;
@@ -16,5 +16,5 @@ export class BlogType {
   blogTags: BlogTags;
 
   @Field()
-  userId: number;
+  userId: string;
 }

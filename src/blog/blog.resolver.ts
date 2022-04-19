@@ -42,12 +42,12 @@ export class BlogResolver {
   }
 
   @Mutation((returns) => String)
-  deleteBlog(@Args('id') id: number) {
+  deleteBlog(@Args('id') id: string) {
     return this.blogService.deleteBlog(id);
   }
 
   @Query((returns) => BlogType)
-  getBlogById(@Args('id') id: number) {
+  getBlogById(@Args('id') id: string) {
     return this.blogService.getBlogById(id);
   }
 }
