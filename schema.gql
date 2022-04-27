@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type User {
-  id: ID!
+  id: ID
   email: String!
   firstName: String!
   lastName: String!
@@ -25,6 +25,7 @@ type Query {
   blogs: [Blog!]!
   allblogs(input: BlogFilter!): [Blog!]!
   getBlogById(id: String!): Blog!
+  signin(input: UserSignInInput!): SigninResponse!
   profile: User!
 }
 
@@ -34,13 +35,18 @@ input BlogFilter {
   blogTags: String
 }
 
+input UserSignInInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   createBlog(input: BlogInputType!): Blog!
   updateBlog(input: BlogInputType!): Blog!
   createOrUpdateBlog(input: BlogInputType!): Blog!
   deleteBlog(id: String!): String!
   signup(input: UserInput!): User!
-  signin(input: UserSignInInput!): SigninResponse!
+  updateProfile(input: UserProfileInput!): User!
 }
 
 input BlogInputType {
@@ -57,7 +63,8 @@ input UserInput {
   password: String!
 }
 
-input UserSignInInput {
+input UserProfileInput {
   email: String!
-  password: String!
+  firstName: String!
+  lastName: String!
 }

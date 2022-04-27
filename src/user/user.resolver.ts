@@ -8,6 +8,7 @@ import { GQLAuthGuard } from './gql.authguard';
 import { GetUser } from './get.user.decorator';
 import { UserEntity } from './user.entity';
 import { UserSignInInput } from './types/user.signin.input';
+import { UserProfileInput } from './types/profile.input';
 
 @Resolver((of) => UserType)
 export class UserResolver {
@@ -18,7 +19,7 @@ export class UserResolver {
     return this.userService.signup(input);
   }
 
-  @Mutation((returns) => SigninResponse)
+  @Query((returns) => SigninResponse)
   signin(@Args('input') input: UserSignInInput) {
     return this.userService.signin(input);
   }
@@ -27,5 +28,14 @@ export class UserResolver {
   @UseGuards(GQLAuthGuard)
   profile(@GetUser() user: UserEntity) {
     return user;
+  }
+
+  @Mutation((returns) => UserType)
+  @UseGuards(GQLAuthGuard)
+  updateProfile(
+    @GetUser() user: UserEntity,
+    @Args('input') input: UserProfileInput,
+  ) {
+    return this.userService.updateProfile(user, input);
   }
 }

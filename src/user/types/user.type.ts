@@ -3,7 +3,7 @@ import { IsEmail } from 'class-validator';
 
 @ObjectType('User')
 export class UserType {
-  @Field((type) => ID)
+  @Field((type) => ID, { nullable: true })
   id: string;
 
   @Field()

@@ -3,6 +3,8 @@ import { UserEntity } from './user.entity';
 import * as crypto from 'crypto-js';
 import { UserInput } from './types/user.input';
 import { UserSignInInput } from './types/user.signin.input';
+import { UserProfileInput } from './types/profile.input';
+import { userInfo } from 'os';
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
@@ -22,9 +24,9 @@ export class UserRepository extends Repository<UserEntity> {
 
     user.password = `${crypto.MD5(userInput.password)}`;
 
-    await user.save();
+    const result = await user.save();
 
-    return user;
+    return result;
   }
 
   async validateEmail(search: string) {
@@ -53,5 +55,14 @@ export class UserRepository extends Repository<UserEntity> {
     }
 
     return user;
+  }
+
+  async updateProfile(user: UserEntity, input: UserProfileInput) {
+    user.email = input.email;
+    user.firstName = input.firstName;
+    user.lastName = input.lastName;
+
+    const result = user.save();
+    return result;
   }
 }

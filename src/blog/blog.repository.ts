@@ -35,7 +35,12 @@ export class BlogRepository extends Repository<BlogEntity> {
   }
 
   async createOrUpdateBlog(input: BlogInputType, user: UserEntity) {
-    if (input.id == null || input.id == undefined) {
+    if (
+      input.id === null ||
+      input.id === undefined ||
+      input.id === 'undefined' ||
+      input.id === ''
+    ) {
       return this.createBlog(user, input);
     } else {
       return this.updateBlog(input);
