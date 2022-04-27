@@ -4,7 +4,6 @@ import * as crypto from 'crypto-js';
 import { UserInput } from './types/user.input';
 import { UserSignInInput } from './types/user.signin.input';
 import { UserProfileInput } from './types/profile.input';
-import { userInfo } from 'os';
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {

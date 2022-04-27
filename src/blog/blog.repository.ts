@@ -75,6 +75,9 @@ export class BlogRepository extends Repository<BlogEntity> {
     if (input.blogTags == null && input.blogTitle == null) {
       return allBlog;
     }
+    if (input.blogTitle === '') {
+      return allBlog;
+    }
     if (input.blogTags) {
       query.andWhere(`blogTags= :blogTags`, { blogTags: input.blogTags });
       const blog = query.getMany();
