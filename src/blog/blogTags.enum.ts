@@ -4,4 +4,8 @@ export enum BlogTags {
   TRAVEL = 'TRAVEL',
   SPORTS = 'SPORTS',
   FINANCE = 'FINANCE',
+  CRYPTO = 'CRYPTO',
+  ART = 'ART',
+  STARTUP = 'STARTUP',
+  STOCKS = 'STOCKS',
 }

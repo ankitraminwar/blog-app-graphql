@@ -75,16 +75,20 @@ export class BlogRepository extends Repository<BlogEntity> {
     if (input.blogTags == null && input.blogTitle == null) {
       return allBlog;
     }
-    if (input.blogTitle === '') {
+    if (input.blogTitle === '' && input.blogTags === null) {
       return allBlog;
     }
     if (input.blogTags) {
-      query.andWhere(`blogTags= :blogTags`, { blogTags: input.blogTags });
+      query.andWhere(`blog.blogTags LIKE :blogTags`, {
+        blogTags: input.blogTags + '%',
+      });
       const blog = query.getMany();
       return await blog;
     }
     if (input.blogTitle) {
-      query.andWhere(`blogTitle= :blogTitle`, { blogTitle: input.blogTitle });
+      query.andWhere(`blog.blogTitle LIKE :blogTitle`, {
+        blogTitle: input.blogTitle + '%',
+      });
       const blog = query.getMany();
 
       return await blog;
