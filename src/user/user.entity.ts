@@ -7,7 +7,7 @@ import {
   Unique,
 } from 'typeorm';
 import * as crypto from 'crypto-js';
-import { BlogEntity } from 'src/blog/blog.entity';
+import { BlogEntity } from '../blog/blog.entity';
 import { IsEmail } from 'class-validator';
 
 @Entity('User')

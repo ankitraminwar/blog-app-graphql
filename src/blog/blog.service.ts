@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from '../user/user.entity';
 import { BlogRepository } from './blog.repository';
 import { BlogFilter } from './types/blog.filter';
 import { BlogInputType } from './types/blog.input';
@@ -27,7 +27,7 @@ export class BlogService {
     return this.blogRepository.allBlogs(input);
   }
 
-  async getBlogs(user: UserEntity) {
+  async blogs(user: UserEntity) {
     return this.blogRepository.getBlogs(user);
   }
 

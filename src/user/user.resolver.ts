@@ -10,27 +10,27 @@ import { UserEntity } from './user.entity';
 import { UserSignInInput } from './types/user.signin.input';
 import { UserProfileInput } from './types/profile.input';
 
-@Resolver((of) => UserType)
+@Resolver(() => UserType)
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @Mutation((returns) => UserType)
+  @Mutation(() => UserType)
   signup(@Args('input') input: UserInput) {
     return this.userService.signup(input);
   }
 
-  @Query((returns) => SigninResponse)
+  @Query(() => SigninResponse)
   signin(@Args('input') input: UserSignInInput) {
     return this.userService.signin(input);
   }
 
-  @Query((returns) => UserType)
+  @Query(() => UserType)
   @UseGuards(GQLAuthGuard)
   profile(@GetUser() user: UserEntity) {
-    return user;
+    return this.userService.profile(user);
   }
 
-  @Mutation((returns) => UserType)
+  @Mutation(() => UserType)
   @UseGuards(GQLAuthGuard)
   updateProfile(
     @GetUser() user: UserEntity,

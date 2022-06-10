@@ -7,4 +7,12 @@ export const TypeORMConfiguration: TypeOrmModuleOptions = {
   type: 'sqlite',
   entities: [BlogEntity, UserEntity],
   synchronize: true,
+  //type: 'postgres',
+  //host: 'localhost',
+  //port: 5432,
+  //username: 'postgres',
+  //password: 'india',
+  //database: 'blogdb',
+  //entities: [BlogEntity, UserEntity],
+  //synchronize: true,
 };

@@ -12,13 +12,17 @@ import { UserRepository } from './user.repository';
 export class UserService {
   constructor(
     @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
+    private readonly userRepository: UserRepository,
 
     private jwtService: JwtService,
   ) {}
 
   async signup(userInput: UserInput) {
     return this.userRepository.signup(userInput);
+  }
+
+  async profile(user: UserEntity) {
+    return user;
   }
 
   async updateProfile(user: UserEntity, input: UserProfileInput) {

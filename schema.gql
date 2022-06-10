@@ -30,7 +30,6 @@ type Query {
 }
 
 input BlogFilter {
-  id: String
   blogTitle: String
   blogTags: String
 }

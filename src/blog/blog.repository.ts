@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from '../user/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { BlogEntity } from './blog.entity';
 import { BlogFilter } from './types/blog.filter';
